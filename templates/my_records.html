@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translate('my_records') }} - {{ translate('cultural_heritage_platform') }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1 class="display-6">
+            {% if get_current_language() == 'te' %}
+                నా రికార్డులు
+            {% else %}
+                My Records
+            {% endif %}
+        </h1>
+        <p class="lead text-muted">
+            {% if get_current_language() == 'te' %}
+                మీరు సమర్పించిన సాంస్కృతిక కంటెంట్
+            {% else %}
+                Cultural content you have submitted
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<!-- Contributions Statistics -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h6 class="mb-0"><i class="fas fa-chart-bar"></i> 
+                    {% if get_current_language() == 'te' %}
+                        సహకారాల సారాంశం
+                    {% else %}
+                        Contributions Summary
+                    {% endif %}
+                </h6>
+            </div>
+            <div class="card-body py-2">
+                <div class="row text-center">
+                    <div class="col-md-2 col-6 mb-2">
+                        <div class="p-2 bg-light rounded">
+                            <i class="fas fa-font text-primary"></i>
+                            <strong class="d-block text-primary">{{ stats.contributions_by_media_type.text }}</strong>
+                            <small class="text-muted">Text</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-2">
+                        <div class="p-2 bg-light rounded">
+                            <i class="fas fa-microphone text-success"></i>
+                            <strong class="d-block text-success">{{ stats.contributions_by_media_type.audio }}</strong>
+                            <small class="text-muted">Audio</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-2">
+                        <div class="p-2 bg-light rounded">
+                            <i class="fas fa-video text-danger"></i>
+                            <strong class="d-block text-danger">{{ stats.contributions_by_media_type.video }}</strong>
+                            <small class="text-muted">Video</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-2">
+                        <div class="p-2 bg-light rounded">
+                            <i class="fas fa-camera text-warning"></i>
+                            <strong class="d-block text-warning">{{ stats.contributions_by_media_type.image }}</strong>
+                            <small class="text-muted">Images</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-2">
+                        <div class="p-2 bg-light rounded">
+                            <i class="fas fa-file-alt text-secondary"></i>
+                            <strong class="d-block text-secondary">{{ stats.contributions_by_media_type.document }}</strong>
+                            <small class="text-muted">Documents</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-2">
+                        <div class="p-2 bg-primary text-white rounded">
+                            <i class="fas fa-heart"></i>
+                            <strong class="d-block">{{ stats.total_contributions }}</strong>
+                            <small>Total</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5><i class="fas fa-list"></i> 
+                    {% if get_current_language() == 'te' %}
+                        మీ సహకారాలు
+                    {% else %}
+                        Your Contributions
+                    {% endif %}
+                </h5>
+                <a href="{{ url_for('content') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> {{ translate('submit_content') }}
+                </a>
+            </div>
+            <div class="card-body">
+                {% if records %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ translate('title') }}</th>
+                                <th>{{ translate('category') }}</th>
+                                <th>{{ translate('language') }}</th>
+                                <th>
+                                    {% if get_current_language() == 'te' %}
+                                        స్థితి
+                                    {% else %}
+                                        Status
+                                    {% endif %}
+                                </th>
+                                <th>
+                                    {% if get_current_language() == 'te' %}
+                                        సృష్టించిన తేదీ
+                                    {% else %}
+                                        Created Date
+                                    {% endif %}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>
+                                <td>{{ record.title }}</td>
+                                <td>{{ record.category_id }}</td>
+                                <td>{{ record.language }}</td>
+                                <td>
+                                    <span class="badge bg-{% if record.status == 'published' %}success{% elif record.status == 'pending' %}warning{% else %}secondary{% endif %}">
+                                        {{ record.status }}
+                                    </span>
+                                </td>
+                                <td>{{ record.created_at.split('T')[0] if record.created_at else 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center text-muted py-5">
+                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                    <p>
+                        {% if get_current_language() == 'te' %}
+                            ఇంకా ఎలాంటి రికార్డులు లేవు. సహకారం అందించడం ప్రారంభించండి!
+                        {% else %}
+                            No records yet. Start contributing to see your submissions here!
+                        {% endif %}
+                    </p>
+                    <a href="{{ url_for('content') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> {{ translate('submit_content') }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

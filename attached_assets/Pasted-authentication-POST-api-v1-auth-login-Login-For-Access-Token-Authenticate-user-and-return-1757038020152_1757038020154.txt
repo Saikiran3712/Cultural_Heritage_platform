@@ -1,0 +1,2756 @@
+authentication
+
+
+POST
+/api/v1/auth/login
+Login For Access Token
+
+Authenticate user and return access token.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone": "string",
+  "password": "string"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "access_token": "string",
+  "token_type": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/auth/me
+Read Users Me
+
+
+Get current user information.
+
+Parameters
+Try it out
+No parameters
+
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "phone": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "gender": "string",
+  "date_of_birth": "2025-09-05",
+  "place": "string",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "is_active": true,
+  "has_given_consent": true,
+  "consent_given_at": "2025-09-05T01:49:00.376Z",
+  "last_login_at": "2025-09-05T01:49:00.376Z",
+  "created_at": "2025-09-05T01:49:00.376Z",
+  "updated_at": "2025-09-05T01:49:00.376Z"
+}
+No links
+
+POST
+/api/v1/auth/change-password
+Change Password
+
+
+Change current user's password.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "current_password": "string",
+  "new_password": "stringst"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "message": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/reset-password
+Reset Password
+
+
+Reset user password (admin functionality).
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone": "string",
+  "new_password": "stringst"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "message": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/login/send-otp
+Send Login Otp
+
+Send OTP to phone number for login via SMS
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone_number": "string"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "status": "string",
+  "message": "string",
+  "reference_id": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/login/verify-otp
+Verify Login Otp
+
+
+POST
+/api/v1/auth/login/resend-otp
+Resend Login Otp
+
+Resend OTP to phone number for login
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone_number": "string"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "status": "string",
+  "message": "string",
+  "reference_id": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/forgot-password/init
+Initiate Password Reset
+
+Initiate password reset process by sending OTP to user's phone
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone_number": "string"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "status": "string",
+  "message": "string",
+  "reference_id": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/forgot-password/confirm
+Confirm Password Reset
+
+Confirm password reset with OTP and set new password
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone_number": "string",
+  "otp_code": "string",
+  "new_password": "stringst",
+  "confirm_password": "stringst"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "status": "string",
+  "message": "string",
+  "reference_id": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/signup/send-otp
+Send Signup Otp
+
+Send OTP to phone number for signup (no user registration required)
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone_number": "string"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "status": "string",
+  "message": "string",
+  "reference_id": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/signup/verify-otp
+Verify Signup Otp
+
+Verify OTP and create new user account
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone_number": "string",
+  "otp_code": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "password": "stringst",
+  "has_given_consent": true
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "access_token": "string",
+  "token_type": "bearer",
+  "user_id": "string",
+  "phone_number": "string",
+  "roles": []
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/auth/signup/resend-otp
+Resend Signup Otp
+
+Resend OTP to phone number for signup
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "phone_number": "string"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "status": "string",
+  "message": "string",
+  "reference_id": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+roles
+
+
+GET
+/api/v1/roles/
+Get Roles
+
+
+
+POST
+/api/v1/roles/
+Create Role
+
+
+
+GET
+/api/v1/roles/{role_id}
+Get Role
+
+
+users
+
+
+GET
+/api/v1/users/
+Get Users
+
+
+Get all users with pagination.
+
+Parameters
+Try it out
+Name	Description
+skip
+integer
+(query)
+Number of users to skip
+
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Number of users to return
+
+Default value : 100
+
+100
+maximum: 1000
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "phone": "string",
+    "name": "string",
+    "email": "user@example.com",
+    "gender": "string",
+    "date_of_birth": "2025-09-05",
+    "place": "string",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "is_active": true,
+    "has_given_consent": true,
+    "consent_given_at": "2025-09-05T01:49:00.460Z",
+    "last_login_at": "2025-09-05T01:49:00.461Z",
+    "created_at": "2025-09-05T01:49:00.461Z",
+    "updated_at": "2025-09-05T01:49:00.461Z"
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/users/
+Create User
+
+
+GET
+/api/v1/users/{user_id}
+Get User
+
+
+Get a specific user by ID.
+
+A user can always get their own profile.
+Users with 'users:read' permission (like admins/reviewers) can get any profile.
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "phone": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "gender": "string",
+  "date_of_birth": "2025-09-05",
+  "place": "string",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "is_active": true,
+  "has_given_consent": true,
+  "consent_given_at": "2025-09-05T01:49:00.472Z",
+  "last_login_at": "2025-09-05T01:49:00.472Z",
+  "created_at": "2025-09-05T01:49:00.472Z",
+  "updated_at": "2025-09-05T01:49:00.472Z"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+PUT
+/api/v1/users/{user_id}
+Update User
+
+
+Update a user.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "name": "string",
+  "email": "user@example.com",
+  "gender": "string",
+  "date_of_birth": "2025-09-05",
+  "place": "string",
+  "is_active": true,
+  "has_given_consent": true
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "phone": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "gender": "string",
+  "date_of_birth": "2025-09-05",
+  "place": "string",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "is_active": true,
+  "has_given_consent": true,
+  "consent_given_at": "2025-09-05T01:49:00.481Z",
+  "last_login_at": "2025-09-05T01:49:00.481Z",
+  "created_at": "2025-09-05T01:49:00.481Z",
+  "updated_at": "2025-09-05T01:49:00.481Z"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/users/{user_id}/with-roles
+Get User With Roles
+
+
+Get a specific user by ID with their roles populated.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "phone": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "gender": "string",
+  "date_of_birth": "2025-09-05",
+  "place": "string",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "is_active": true,
+  "has_given_consent": true,
+  "consent_given_at": "2025-09-05T01:49:00.488Z",
+  "last_login_at": "2025-09-05T01:49:00.488Z",
+  "created_at": "2025-09-05T01:49:00.488Z",
+  "updated_at": "2025-09-05T01:49:00.488Z",
+  "roles": []
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/users/phone/{phone}
+Get User By Phone
+
+
+Get a user by phone number.
+
+Parameters
+Try it out
+Name	Description
+phone *
+string
+(path)
+phone
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "phone": "string",
+  "name": "string",
+  "email": "user@example.com",
+  "gender": "string",
+  "date_of_birth": "2025-09-05",
+  "place": "string",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "is_active": true,
+  "has_given_consent": true,
+  "consent_given_at": "2025-09-05T01:49:00.495Z",
+  "last_login_at": "2025-09-05T01:49:00.495Z",
+  "created_at": "2025-09-05T01:49:00.495Z",
+  "updated_at": "2025-09-05T01:49:00.495Z"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/users/{user_id}/roles
+Get User Roles Endpoint
+
+
+Get all roles assigned to a user.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "name": "admin",
+    "description": "string",
+    "id": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/users/{user_id}/roles
+Assign Roles To User
+
+
+Assign roles to a user.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Request body
+
+application/json
+Example Value
+Schema
+[
+  0
+]
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "name": "admin",
+    "description": "string",
+    "id": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+PUT
+/api/v1/users/{user_id}/roles/add
+Add Role To User
+
+
+Add a single role to a user (keeping existing roles).
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+role_id *
+integer
+(query)
+role_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "name": "admin",
+    "description": "string",
+    "id": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+DELETE
+/api/v1/users/{user_id}/roles/{role_id}
+Remove Role From User
+
+
+Remove a role from a user.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+role_id *
+integer
+(path)
+role_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "name": "admin",
+    "description": "string",
+    "id": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/users/{user_id}/contributions
+Get User Contributions
+
+
+Get all records submitted by a user. Allow self-access or with permission.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "total_contributions": 0,
+  "contributions_by_media_type": {
+    "text": 0,
+    "audio": 0,
+    "image": 0,
+    "video": 0,
+    "document": 0
+  },
+  "audio_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T01:49:00.527Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "video_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T01:49:00.527Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "text_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T01:49:00.527Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "image_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T01:49:00.527Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "document_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T01:49:00.527Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "audio_duration": 0,
+  "video_duration": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/users/{user_id}/contributions/{media_type}
+Get User Contributions By Media
+
+
+Get records by media type. Allow self-access or with permission.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+media_type *
+string
+(path)
+Available values : text, audio, video, image, document
+
+
+text
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "total_contributions": 0,
+  "contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T01:49:00.538Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ]
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+PUT
+/api/v1/users/{user_id}/change-password
+Change User Password
+
+
+Change a user's password.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "current_password": "string",
+  "new_password": "stringst",
+  "confirm_password": "stringst"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "message": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+categories
+
+
+GET
+/api/v1/categories/
+Get Categories
+
+
+Get all categories.
+
+Parameters
+Try it out
+No parameters
+
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "name": "string",
+    "title": "string",
+    "description": "string",
+    "published": false,
+    "rank": 0,
+    "created_at": "2025-09-05T01:49:00.557Z",
+    "updated_at": "2025-09-05T01:49:00.557Z"
+  }
+]
+No links
+
+POST
+/api/v1/categories/
+Create Category
+
+
+Create a new category.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "string",
+  "title": "string",
+  "description": "string",
+  "published": false,
+  "rank": 0,
+  "created_at": "2025-09-05T01:49:00.563Z",
+  "updated_at": "2025-09-05T01:49:00.563Z"
+}
+Responses
+Code	Description	Links
+201	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "string",
+  "title": "string",
+  "description": "string",
+  "published": false,
+  "rank": 0,
+  "created_at": "2025-09-05T01:49:00.564Z",
+  "updated_at": "2025-09-05T01:49:00.564Z"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/categories/{category_id}
+Get Category
+
+
+Get a specific category by ID.
+
+Parameters
+Try it out
+Name	Description
+category_id *
+string
+(path)
+category_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "string",
+  "title": "string",
+  "description": "string",
+  "published": false,
+  "rank": 0,
+  "created_at": "2025-09-05T01:49:00.569Z",
+  "updated_at": "2025-09-05T01:49:00.569Z"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+DELETE
+/api/v1/categories/{category_id}
+Delete Category
+
+
+Delete a category.
+
+Parameters
+Try it out
+Name	Description
+category_id *
+string
+(path)
+category_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "additionalProp1": {}
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+records
+
+
+GET
+/api/v1/records/
+Get Records
+
+
+Get all records with optional filtering and pagination.
+
+Parameters
+Try it out
+Name	Description
+category_id
+string | (string | null)($uuid)
+(query)
+category_id
+user_id
+string | (string | null)($uuid)
+(query)
+user_id
+media_type
+string | (string | null)
+(query)
+Available values : text, audio, video, image, document
+
+
+--
+skip
+integer
+(query)
+Number of records to skip
+
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Number of records to return
+
+Default value : 100
+
+100
+maximum: 1000
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "title": "string",
+    "description": "string",
+    "media_type": "text",
+    "file_url": "string",
+    "file_name": "string",
+    "file_size": 0,
+    "status": "pending",
+    "location": {
+      "latitude": 17.385,
+      "longitude": 78.4867
+    },
+    "reviewed": false,
+    "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "reviewed_at": "2025-09-05T01:49:00.583Z",
+    "release_rights": "creator",
+    "language": "assamese",
+    "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "created_at": "2025-09-05T01:49:00.583Z",
+    "updated_at": "2025-09-05T01:49:00.583Z",
+    "duration_seconds": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/records/
+Create Record
+
+
+Create a new record, optionally with a generated file.
+
+Parameters
+Try it out
+Name	Description
+generate_file
+boolean
+(query)
+Generate a sample file for this record
+
+Default value : false
+
+
+false
+file_size_kb
+integer
+(query)
+Size of generated file in KB
+
+Default value : 10
+
+10
+maximum: 1000
+minimum: 1
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T01:49:00.592Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+Responses
+Code	Description	Links
+201	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T01:49:00.593Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T01:49:00.593Z",
+  "updated_at": "2025-09-05T01:49:00.593Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/{record_id}
+Get Record
+
+
+Get a specific record by ID.
+
+Parameters
+Try it out
+Name	Description
+record_id *
+string
+(path)
+record_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T01:49:00.599Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T01:49:00.599Z",
+  "updated_at": "2025-09-05T01:49:00.599Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+PATCH
+/api/v1/records/{record_id}
+Patch Record
+
+
+Updates a record using the Builder pattern for validation and application of changes.
+
+Parameters
+Try it out
+Name	Description
+record_id *
+string($uuid)
+(path)
+record_id
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "string",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": true,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T01:49:00.606Z",
+  "release_rights": "creator",
+  "language": "assamese"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T01:49:00.608Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T01:49:00.608Z",
+  "updated_at": "2025-09-05T01:49:00.608Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/records/upload/chunk
+Upload Chunk
+
+
+Upload a single chunk of a file.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+multipart/form-data
+chunk *
+string($binary)
+filename *
+string
+chunk_index *
+integer
+total_chunks *
+integer
+upload_uuid *
+string
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "additionalProp1": {}
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/records/upload
+Upload Record
+
+
+Finalize chunked upload and create a record.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/x-www-form-urlencoded
+title *
+string
+description
+string | (string | null)
+category_id *
+string
+user_id *
+string
+media_type *
+string
+upload_uuid *
+string
+filename *
+string
+total_chunks *
+integer
+latitude
+number | (number | null)
+longitude
+number | (number | null)
+release_rights *
+string
+language *
+string
+use_uid_filename
+boolean
+Use record UID as filename instead of original filename
+
+Responses
+Code	Description	Links
+201	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T01:49:00.625Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T01:49:00.625Z",
+  "updated_at": "2025-09-05T01:49:00.625Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/search/nearby
+Search Records Nearby
+
+
+Search for records within a specified distance of a point.
+
+Parameters
+Try it out
+Name	Description
+latitude *
+number
+(query)
+Latitude coordinate
+
+latitude
+maximum: 90
+minimum: -90
+longitude *
+number
+(query)
+Longitude coordinate
+
+longitude
+maximum: 180
+minimum: -180
+distance_meters *
+number
+(query)
+Search radius in meters (max 50km)
+
+distance_meters
+maximum: 50000
+category_id
+string | (string | null)($uuid)
+(query)
+category_id
+media_type
+string | (string | null)
+(query)
+Available values : text, audio, video, image, document
+
+
+--
+skip
+integer
+(query)
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Default value : 100
+
+100
+maximum: 1000
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "title": "string",
+    "description": "string",
+    "media_type": "text",
+    "file_url": "string",
+    "file_name": "string",
+    "file_size": 0,
+    "status": "pending",
+    "location": {
+      "latitude": 17.385,
+      "longitude": 78.4867
+    },
+    "reviewed": false,
+    "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "reviewed_at": "2025-09-05T01:49:00.639Z",
+    "release_rights": "creator",
+    "language": "assamese",
+    "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "created_at": "2025-09-05T01:49:00.639Z",
+    "updated_at": "2025-09-05T01:49:00.639Z",
+    "duration_seconds": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/search/bbox
+Search Records In Bbox
+
+
+Search for records within a bounding box (rectangular area).
+
+Parameters
+Try it out
+Name	Description
+min_lat *
+number
+(query)
+Minimum latitude
+
+min_lat
+maximum: 90
+minimum: -90
+min_lng *
+number
+(query)
+Minimum longitude
+
+min_lng
+maximum: 180
+minimum: -180
+max_lat *
+number
+(query)
+Maximum latitude
+
+max_lat
+maximum: 90
+minimum: -90
+max_lng *
+number
+(query)
+Maximum longitude
+
+max_lng
+maximum: 180
+minimum: -180
+category_id
+string | (string | null)($uuid)
+(query)
+category_id
+media_type
+string | (string | null)
+(query)
+Available values : text, audio, video, image, document
+
+
+--
+skip
+integer
+(query)
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Default value : 100
+
+100
+maximum: 1000
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "title": "string",
+    "description": "string",
+    "media_type": "text",
+    "file_url": "string",
+    "file_name": "string",
+    "file_size": 0,
+    "status": "pending",
+    "location": {
+      "latitude": 17.385,
+      "longitude": 78.4867
+    },
+    "reviewed": false,
+    "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "reviewed_at": "2025-09-05T01:49:00.654Z",
+    "release_rights": "creator",
+    "language": "assamese",
+    "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "created_at": "2025-09-05T01:49:00.654Z",
+    "updated_at": "2025-09-05T01:49:00.654Z",
+    "duration_seconds": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/search/distance
+Get Records With Distances
+
+
+Get records with calculated distances from a reference point.
+
+Parameters
+Try it out
+Name	Description
+latitude *
+number
+(query)
+Reference latitude
+
+latitude
+maximum: 90
+minimum: -90
+longitude *
+number
+(query)
+Reference longitude
+
+longitude
+maximum: 180
+minimum: -180
+max_distance_meters
+number | (number | null)
+(query)
+Maximum distance in meters
+
+max_distance_meters
+maximum: 100000
+skip
+integer
+(query)
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Default value : 50
+
+50
+maximum: 500
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "additionalProp1": {}
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/{record_id}/record-url
+Get Temporary Access Url
+
+
+Generates a temporary, secure (presigned) URL for a record's file and redirects to it.
+
+This allows controlled, time-limited access to the media file without making it public.
+
+Parameters
+Try it out
+Name	Description
+record_id *
+string($uuid)
+(path)
+record_id
+expires_minutes
+integer
+(query)
+Duration for which the URL is valid, in minutes.
+
+Default value : 15
+
+15
+maximum: 120
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "record_url": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+tasks
+
+
+POST
+/api/v1/tasks/export-data
+Export User Data Endpoint
+
+
+Export user's data.
+
+Parameters
+Try it out
+Name	Description
+export_format
+string
+(query)
+Default value : json
+
+json
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "task_id": "string",
+  "task_name": "string",
+  "status": "string",
+  "message": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translate('register') }} - {{ translate('cultural_heritage_platform') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3><i class="fas fa-user-plus"></i> {{ translate('register') }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">{{ translate('phone_number') }}</label>
+                        {{ form.phone(class="form-control", placeholder="+91XXXXXXXXXX") }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label">{{ translate('full_name') }}</label>
+                        {{ form.name(class="form-control", placeholder="Enter your username") }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">{{ translate('password') }}</label>
+                        {{ form.password(class="form-control") }}
+                        <div class="form-text">Minimum 8 characters required</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="consent" required>
+                            <label class="form-check-label" for="consent">
+                                {% if get_current_language() == 'te' %}
+                                    సాంస్కృతిక సంరక్షణ ప్రయోజనాల కోసం నా సహకారాన్ని పంచుకోవడానికి నేను అంగీకరిస్తున్నాను.
+                                {% else %}
+                                    I agree to share my cultural contributions with the platform for preservation purposes.
+                                {% endif %}
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+                
+                <hr>
+                <div class="text-center">
+                    <p>
+                        {% if get_current_language() == 'te' %}
+                            ఇప్పటికే ఖాతా ఉందా? <a href="{{ url_for('login') }}">ఇక్కడ లాగిన్ చేయండి</a>
+                        {% else %}
+                            Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

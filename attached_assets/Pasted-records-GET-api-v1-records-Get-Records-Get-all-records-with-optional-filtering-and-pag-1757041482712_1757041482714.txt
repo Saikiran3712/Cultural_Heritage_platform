@@ -1,0 +1,942 @@
+records
+
+
+GET
+/api/v1/records/
+Get Records
+
+
+Get all records with optional filtering and pagination.
+
+Parameters
+Try it out
+Name	Description
+category_id
+string | (string | null)($uuid)
+(query)
+category_id
+user_id
+string | (string | null)($uuid)
+(query)
+user_id
+media_type
+string | (string | null)
+(query)
+Available values : text, audio, video, image, document
+
+
+--
+skip
+integer
+(query)
+Number of records to skip
+
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Number of records to return
+
+Default value : 100
+
+100
+maximum: 1000
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "title": "string",
+    "description": "string",
+    "media_type": "text",
+    "file_url": "string",
+    "file_name": "string",
+    "file_size": 0,
+    "status": "pending",
+    "location": {
+      "latitude": 17.385,
+      "longitude": 78.4867
+    },
+    "reviewed": false,
+    "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "reviewed_at": "2025-09-05T03:04:00.497Z",
+    "release_rights": "creator",
+    "language": "assamese",
+    "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "created_at": "2025-09-05T03:04:00.497Z",
+    "updated_at": "2025-09-05T03:04:00.497Z",
+    "duration_seconds": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/records/
+Create Record
+
+
+Create a new record, optionally with a generated file.
+
+Parameters
+Try it out
+Name	Description
+generate_file
+boolean
+(query)
+Generate a sample file for this record
+
+Default value : false
+
+
+false
+file_size_kb
+integer
+(query)
+Size of generated file in KB
+
+Default value : 10
+
+10
+maximum: 1000
+minimum: 1
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T03:04:00.501Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+Responses
+Code	Description	Links
+201	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T03:04:00.502Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T03:04:00.502Z",
+  "updated_at": "2025-09-05T03:04:00.502Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/{record_id}
+Get Record
+
+
+Get a specific record by ID.
+
+Parameters
+Try it out
+Name	Description
+record_id *
+string
+(path)
+record_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T03:04:00.505Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T03:04:00.505Z",
+  "updated_at": "2025-09-05T03:04:00.505Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+PATCH
+/api/v1/records/{record_id}
+Patch Record
+
+
+Updates a record using the Builder pattern for validation and application of changes.
+
+Parameters
+Try it out
+Name	Description
+record_id *
+string($uuid)
+(path)
+record_id
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "string",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": true,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T03:04:00.508Z",
+  "release_rights": "creator",
+  "language": "assamese"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T03:04:00.509Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T03:04:00.509Z",
+  "updated_at": "2025-09-05T03:04:00.509Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/records/upload/chunk
+Upload Chunk
+
+
+Upload a single chunk of a file.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+multipart/form-data
+chunk *
+string($binary)
+filename *
+string
+chunk_index *
+integer
+total_chunks *
+integer
+upload_uuid *
+string
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "additionalProp1": {}
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/records/upload
+Upload Record
+
+
+Finalize chunked upload and create a record.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/x-www-form-urlencoded
+title *
+string
+description
+string | (string | null)
+category_id *
+string
+user_id *
+string
+media_type *
+string
+upload_uuid *
+string
+filename *
+string
+total_chunks *
+integer
+latitude
+number | (number | null)
+longitude
+number | (number | null)
+release_rights *
+string
+language *
+string
+use_uid_filename
+boolean
+Use record UID as filename instead of original filename
+
+Responses
+Code	Description	Links
+201	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-05T03:04:00.515Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-05T03:04:00.515Z",
+  "updated_at": "2025-09-05T03:04:00.515Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/search/nearby
+Search Records Nearby
+
+
+Search for records within a specified distance of a point.
+
+Parameters
+Try it out
+Name	Description
+latitude *
+number
+(query)
+Latitude coordinate
+
+latitude
+maximum: 90
+minimum: -90
+longitude *
+number
+(query)
+Longitude coordinate
+
+longitude
+maximum: 180
+minimum: -180
+distance_meters *
+number
+(query)
+Search radius in meters (max 50km)
+
+distance_meters
+maximum: 50000
+category_id
+string | (string | null)($uuid)
+(query)
+category_id
+media_type
+string | (string | null)
+(query)
+Available values : text, audio, video, image, document
+
+
+--
+skip
+integer
+(query)
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Default value : 100
+
+100
+maximum: 1000
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "title": "string",
+    "description": "string",
+    "media_type": "text",
+    "file_url": "string",
+    "file_name": "string",
+    "file_size": 0,
+    "status": "pending",
+    "location": {
+      "latitude": 17.385,
+      "longitude": 78.4867
+    },
+    "reviewed": false,
+    "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "reviewed_at": "2025-09-05T03:04:00.520Z",
+    "release_rights": "creator",
+    "language": "assamese",
+    "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "created_at": "2025-09-05T03:04:00.520Z",
+    "updated_at": "2025-09-05T03:04:00.520Z",
+    "duration_seconds": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/search/bbox
+Search Records In Bbox
+
+
+Search for records within a bounding box (rectangular area).
+
+Parameters
+Try it out
+Name	Description
+min_lat *
+number
+(query)
+Minimum latitude
+
+min_lat
+maximum: 90
+minimum: -90
+min_lng *
+number
+(query)
+Minimum longitude
+
+min_lng
+maximum: 180
+minimum: -180
+max_lat *
+number
+(query)
+Maximum latitude
+
+max_lat
+maximum: 90
+minimum: -90
+max_lng *
+number
+(query)
+Maximum longitude
+
+max_lng
+maximum: 180
+minimum: -180
+category_id
+string | (string | null)($uuid)
+(query)
+category_id
+media_type
+string | (string | null)
+(query)
+Available values : text, audio, video, image, document
+
+
+--
+skip
+integer
+(query)
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Default value : 100
+
+100
+maximum: 1000
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "title": "string",
+    "description": "string",
+    "media_type": "text",
+    "file_url": "string",
+    "file_name": "string",
+    "file_size": 0,
+    "status": "pending",
+    "location": {
+      "latitude": 17.385,
+      "longitude": 78.4867
+    },
+    "reviewed": false,
+    "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "reviewed_at": "2025-09-05T03:04:00.531Z",
+    "release_rights": "creator",
+    "language": "assamese",
+    "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "created_at": "2025-09-05T03:04:00.531Z",
+    "updated_at": "2025-09-05T03:04:00.531Z",
+    "duration_seconds": 0
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/search/distance
+Get Records With Distances
+
+
+Get records with calculated distances from a reference point.
+
+Parameters
+Try it out
+Name	Description
+latitude *
+number
+(query)
+Reference latitude
+
+latitude
+maximum: 90
+minimum: -90
+longitude *
+number
+(query)
+Reference longitude
+
+longitude
+maximum: 180
+minimum: -180
+max_distance_meters
+number | (number | null)
+(query)
+Maximum distance in meters
+
+max_distance_meters
+maximum: 100000
+skip
+integer
+(query)
+Default value : 0
+
+0
+minimum: 0
+limit
+integer
+(query)
+Default value : 50
+
+50
+maximum: 500
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+[
+  {
+    "additionalProp1": {}
+  }
+]
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/records/{record_id}/record-url
+Get Temporary Access Url
+
+
+Generates a temporary, secure (presigned) URL for a record's file and redirects to it.
+
+This allows controlled, time-limited access to the media file without making it public.
+
+Parameters
+Try it out
+Name	Description
+record_id *
+string($uuid)
+(path)
+record_id
+expires_minutes
+integer
+(query)
+Duration for which the URL is valid, in minutes.
+
+Default value : 15
+
+15
+maximum: 120
+minimum: 1
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "record_url": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}

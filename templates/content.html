@@ -1,0 +1,461 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">{{ translate('submit_content') }}</h2>
+                <p class="lead">Choose how you'd like to contribute</p>
+            </div>
+            
+            <!-- Media Type Selection Cards -->
+            <div class="row g-4 mb-5">
+                <!-- Text Input -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card media-card text-center h-100 shadow-sm" onclick="selectMediaType('text')" style="cursor: pointer;">
+                        <div class="card-body py-5">
+                            <div class="media-icon mb-3" style="font-size: 3rem; color: #667eea;">
+                                <i class="fas fa-font"></i>
+                            </div>
+                            <h5 class="card-title">Text Input</h5>
+                            <p class="card-text text-muted">Type your content</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Recording -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card media-card text-center h-100 shadow-sm" onclick="selectMediaType('audio')" style="cursor: pointer;">
+                        <div class="card-body py-5">
+                            <div class="media-icon mb-3" style="font-size: 3rem; color: #28a745;">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <h5 class="card-title">Audio Recording</h5>
+                            <p class="card-text text-muted">Record your voice</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Content -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card media-card text-center h-100 shadow-sm" onclick="selectMediaType('video')" style="cursor: pointer;">
+                        <div class="card-body py-5">
+                            <div class="media-icon mb-3" style="font-size: 3rem; color: #dc3545;">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h5 class="card-title">Video Content</h5>
+                            <p class="card-text text-muted">Record or upload video</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Capture -->
+                <div class="col-md-6 col-lg-4 offset-md-3 offset-lg-0">
+                    <div class="card media-card text-center h-100 shadow-sm" onclick="selectMediaType('image')" style="cursor: pointer;">
+                        <div class="card-body py-5">
+                            <div class="media-icon mb-3" style="font-size: 3rem; color: #007bff;">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <h5 class="card-title">Photo Capture</h5>
+                            <p class="card-text text-muted">Take or upload photos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Upload -->
+                <div class="col-md-6 col-lg-4 offset-md-0 offset-lg-2">
+                    <div class="card media-card text-center h-100 shadow-sm" onclick="selectMediaType('document')" style="cursor: pointer;">
+                        <div class="card-body py-5">
+                            <div class="media-icon mb-3" style="font-size: 3rem; color: #6f42c1;">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h5 class="card-title">Document Upload</h5>
+                            <p class="card-text text-muted">Upload document files (PDF, DOCX, etc.)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Form (Hidden initially) -->
+            <div id="contentFormContainer" class="card" style="display: none;">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Upload Content</h4>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="resetSelection()">
+                        <i class="fas fa-arrow-left"></i> Back to Selection
+                    </button>
+                </div>
+                <div class="card-body">
+                    <form id="contentForm">
+                        <input type="hidden" id="selectedMediaType" name="media_type" value="">
+                        
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title *</label>
+                            <input type="text" class="form-control" id="title" name="title" required 
+                                   placeholder="Enter a title for your content">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description *</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" required
+                                      placeholder="Provide a detailed description (minimum 32 characters)"></textarea>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category *</label>
+                            <select class="form-select" id="category" name="category_id" required>
+                                <option value="">Select a category</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Location Section -->
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                <label class="form-label mb-0">Location</label>
+                            </div>
+                            <div class="location-section p-3 bg-light rounded">
+                                <div class="d-flex gap-2 mb-3">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="getLocation()">
+                                        <i class="fas fa-location-arrow"></i> Get Location
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleManualLocation()">
+                                        Manual
+                                    </button>
+                                </div>
+                                
+                                <div id="manualLocationSection" style="display: none;">
+                                    <h6>Enter Location Manually</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Latitude</label>
+                                            <input type="number" class="form-control" id="latitude" name="latitude" 
+                                                   step="any" placeholder="e.g., 17.3850">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Longitude</label>
+                                            <input type="number" class="form-control" id="longitude" name="longitude" 
+                                                   step="any" placeholder="e.g., 78.4867">
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-success" onclick="setLocation()">
+                                            <i class="fas fa-check"></i> Set Location
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="cancelLocation()">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Media-specific content will be inserted here -->
+                        <div id="mediaSpecificContent"></div>
+
+                        <!-- Language Selection -->
+                        <div class="mb-3">
+                            <label for="language" class="form-label">Select Language *</label>
+                            <select class="form-select" id="language" name="language" required>
+                                <option value="">-- Select a language --</option>
+                                <option value="telugu" {% if get_current_language() == 'te' %}selected{% endif %}>Telugu</option>
+                                <option value="english">English</option>
+                                <option value="hindi">Hindi</option>
+                                <option value="tamil">Tamil</option>
+                                <option value="bengali">Bengali</option>
+                                <option value="marathi">Marathi</option>
+                                <option value="gujarati">Gujarati</option>
+                                <option value="kannada">Kannada</option>
+                                <option value="malayalam">Malayalam</option>
+                                <option value="punjabi">Punjabi</option>
+                                <option value="odia">Odia</option>
+                                <option value="urdu">Urdu</option>
+                                <option value="assamese">Assamese</option>
+                            </select>
+                        </div>
+
+                        <!-- Release Rights -->
+                        <div class="mb-4">
+                            <label class="form-label">Release Rights *</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="release_rights" id="creator" value="creator" required>
+                                <label class="form-check-label" for="creator">
+                                    This work is created by me and anyone is free to use it.
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="release_rights" id="family" value="family">
+                                <label class="form-check-label" for="family">
+                                    This work is created by my family/friends and I took permission to upload their work.
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="release_rights" id="unknown" value="unknown">
+                                <label class="form-check-label" for="unknown">
+                                    I downloaded this from the internet and/or I don't know if it is free to share.
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-upload"></i> Upload Content
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="successToast" class="toast" role="alert">
+        <div class="toast-header">
+            <strong class="me-auto text-success">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">Content submitted successfully!</div>
+    </div>
+    <div id="errorToast" class="toast" role="alert">
+        <div class="toast-header">
+            <strong class="me-auto text-danger">Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="errorMessage">Failed to submit content</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Media type selection and form handling
+function selectMediaType(mediaType) {
+    document.getElementById('selectedMediaType').value = mediaType;
+    document.getElementById('contentFormContainer').style.display = 'block';
+    
+    // Update form header with selected media type
+    const headerMap = {
+        'text': 'Text Input',
+        'audio': 'Audio Recording',
+        'video': 'Video Content',
+        'image': 'Photo Capture',
+        'document': 'Document Upload'
+    };
+    
+    document.querySelector('#contentFormContainer .card-header h4').textContent = headerMap[mediaType];
+    
+    // Add media-specific content
+    addMediaSpecificContent(mediaType);
+    
+    // Scroll to form
+    document.getElementById('contentFormContainer').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetSelection() {
+    document.getElementById('contentFormContainer').style.display = 'none';
+    document.getElementById('contentForm').reset();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function addMediaSpecificContent(mediaType) {
+    const container = document.getElementById('mediaSpecificContent');
+    let content = '';
+    
+    switch(mediaType) {
+        case 'text':
+            content = `
+                <div class="mb-3">
+                    <label for="textContent" class="form-label">Text Content *</label>
+                    <textarea class="form-control" id="textContent" name="content" rows="6" required
+                              placeholder="Enter your text content here..."></textarea>
+                </div>`;
+            break;
+        case 'audio':
+            content = `
+                <div class="mb-3">
+                    <label class="form-label">Audio Recording *</label>
+                    <div class="audio-section p-3 border rounded">
+                        <button type="button" class="btn btn-danger btn-lg w-100 mb-3" onclick="startRecording()">
+                            <i class="fas fa-microphone"></i> Start Recording
+                        </button>
+                        <div class="text-center">
+                            <p class="mb-2"><strong>OR</strong></p>
+                            <div class="file-upload-area border-2 border-dashed p-4 text-center">
+                                <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-muted"></i>
+                                <p>Upload Audio Files (Single file)</p>
+                                <input type="file" class="form-control" accept="audio/*" name="audio_file">
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            break;
+        case 'video':
+            content = `
+                <div class="mb-3">
+                    <label class="form-label">Video Recording *</label>
+                    <div class="video-section p-3 border rounded">
+                        <button type="button" class="btn btn-danger btn-lg w-100 mb-3" onclick="startVideoRecording()">
+                            <i class="fas fa-video"></i> Start Video Recording
+                        </button>
+                        <div class="text-center">
+                            <p class="mb-2"><strong>OR</strong></p>
+                            <div class="file-upload-area border-2 border-dashed p-4 text-center">
+                                <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-muted"></i>
+                                <p>Upload Video Files (Single file)</p>
+                                <input type="file" class="form-control" accept="video/*" name="video_file">
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            break;
+        case 'image':
+            content = `
+                <div class="mb-3">
+                    <label class="form-label">Photo Capture *</label>
+                    <div class="image-section p-3 border rounded">
+                        <button type="button" class="btn btn-primary btn-lg w-100 mb-3" onclick="startCamera()">
+                            <i class="fas fa-camera"></i> Start Camera
+                        </button>
+                        <div class="text-center">
+                            <p class="mb-2"><strong>OR</strong></p>
+                            <div class="file-upload-area border-2 border-dashed p-4 text-center">
+                                <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-muted"></i>
+                                <p>Upload Image Files (Single file)</p>
+                                <input type="file" class="form-control" accept="image/*" name="image_file">
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            break;
+        case 'document':
+            content = `
+                <div class="mb-3">
+                    <label class="form-label">Document Upload *</label>
+                    <div class="document-section p-3 border rounded">
+                        <div class="file-upload-area border-2 border-dashed p-4 text-center">
+                            <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-muted"></i>
+                            <p>Upload Document Files (PDF, DOCX, TXT)</p>
+                            <input type="file" class="form-control" accept=".pdf,.docx,.doc,.txt" name="document_file" required>
+                        </div>
+                    </div>
+                </div>`;
+            break;
+    }
+    
+    container.innerHTML = content;
+}
+
+// Location functions
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                document.getElementById('latitude').value = position.coords.latitude.toFixed(4);
+                document.getElementById('longitude').value = position.coords.longitude.toFixed(4);
+                alert('Location retrieved successfully!');
+            },
+            function(error) {
+                alert('Location access failed. Please allow location access in your browser settings, reload the page, or enter your location manually.');
+                toggleManualLocation();
+            }
+        );
+    } else {
+        alert('Geolocation is not supported by this browser.');
+        toggleManualLocation();
+    }
+}
+
+function toggleManualLocation() {
+    const section = document.getElementById('manualLocationSection');
+    section.style.display = section.style.display === 'none' ? 'block' : 'none';
+}
+
+function setLocation() {
+    const lat = document.getElementById('latitude').value;
+    const lng = document.getElementById('longitude').value;
+    if (lat && lng) {
+        alert('Location set successfully!');
+        document.getElementById('manualLocationSection').style.display = 'none';
+    }
+}
+
+function cancelLocation() {
+    document.getElementById('latitude').value = '';
+    document.getElementById('longitude').value = '';
+    document.getElementById('manualLocationSection').style.display = 'none';
+}
+
+// Media recording functions (placeholders)
+function startRecording() {
+    alert('Audio recording feature would be implemented here');
+}
+
+function startVideoRecording() {
+    alert('Video recording feature would be implemented here');
+}
+
+function startCamera() {
+    alert('Camera capture feature would be implemented here');
+}
+
+// Form submission
+document.getElementById('contentForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    // Add text content for text media type
+    if (data.media_type === 'text' && document.getElementById('textContent')) {
+        data.content = document.getElementById('textContent').value;
+    }
+    
+    try {
+        const response = await fetch('/submit-content', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            new bootstrap.Toast(document.getElementById('successToast')).show();
+            this.reset();
+            resetSelection();
+        } else {
+            document.getElementById('errorMessage').textContent = result.message;
+            new bootstrap.Toast(document.getElementById('errorToast')).show();
+        }
+    } catch (error) {
+        document.getElementById('errorMessage').textContent = 'Network error occurred';
+        new bootstrap.Toast(document.getElementById('errorToast')).show();
+    }
+});
+
+// Add hover effects to media cards
+document.addEventListener('DOMContentLoaded', function() {
+    const mediaCards = document.querySelectorAll('.media-card');
+    mediaCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

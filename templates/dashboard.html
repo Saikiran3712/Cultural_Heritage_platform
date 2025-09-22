@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translate('dashboard') }} - {{ translate('cultural_heritage_platform') }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1 class="display-6">
+            {% if get_current_language() == 'te' %}
+                స్వాగతం, {{ user.name }}! 🙏
+            {% else %}
+                Welcome, {{ user.name }}! 🙏
+            {% endif %}
+        </h1>
+        <p class="lead text-muted">
+            {% if get_current_language() == 'te' %}
+                మీ సహకారం భారతదేశ సమృద్ధ సాంస్కృతిక వారసత్వాన్ని పరిరక్షించడంలో సహాయపడుతుంది.
+            {% else %}
+                Your contributions help preserve India's rich cultural heritage.
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<!-- Contributions Statistics -->
+<div class="row mb-4">
+    <div class="col-12 mb-3">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-bar"></i> 
+                    {% if get_current_language() == 'te' %}
+                        మీ సహకారాల సారాంశం
+                    {% else %}
+                        Your Contributions Summary
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-2 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-font fa-2x text-primary mb-2"></i>
+                            <h3 class="text-primary">{{ stats.contributions_by_media_type.text }}</h3>
+                            <small class="text-muted">Text</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-microphone fa-2x text-success mb-2"></i>
+                            <h3 class="text-success">{{ stats.contributions_by_media_type.audio }}</h3>
+                            <small class="text-muted">Audio</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-video fa-2x text-danger mb-2"></i>
+                            <h3 class="text-danger">{{ stats.contributions_by_media_type.video }}</h3>
+                            <small class="text-muted">Video</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-camera fa-2x text-warning mb-2"></i>
+                            <h3 class="text-warning">{{ stats.contributions_by_media_type.image }}</h3>
+                            <small class="text-muted">Images</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <i class="fas fa-file-alt fa-2x text-secondary mb-2"></i>
+                            <h3 class="text-secondary">{{ stats.contributions_by_media_type.document }}</h3>
+                            <small class="text-muted">Documents</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <div class="p-3 bg-primary text-white rounded">
+                            <i class="fas fa-heart fa-2x mb-2"></i>
+                            <h2>{{ stats.total_contributions }}</h2>
+                            <small>
+                                {% if get_current_language() == 'te' %}
+                                    మొత్తం సహకారాలు
+                                {% else %}
+                                    Total Contributions
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5><i class="fas fa-book-open text-primary"></i> Share Stories & Proverbs</h5>
+            </div>
+            <div class="card-body">
+                <p>Preserve traditional stories, folk tales, and proverbs in your native language.</p>
+                <a href="{{ url_for('content') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> {{ translate('submit_content') }}
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5><i class="fas fa-utensils text-success"></i> Traditional Recipes</h5>
+            </div>
+            <div class="card-body">
+                <p>Share family recipes and traditional cooking methods for future generations.</p>
+                <a href="{{ url_for('content') }}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> {{ translate('submit_content') }}
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5><i class="fas fa-landmark text-warning"></i> Cultural Landmarks</h5>
+            </div>
+            <div class="card-body">
+                <p>Document historical places, temples, and cultural landmarks from your region.</p>
+                <a href="{{ url_for('content') }}" class="btn btn-warning">
+                    <i class="fas fa-plus"></i> {{ translate('submit_content') }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-clock"></i> Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                {% if records %}
+                <div class="list-group list-group-flush">
+                    {% for record in records %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">{{ record.title }}</h6>
+                            <p class="mb-1 text-muted">{{ record.description[:100] }}{% if record.description|length > 100 %}...{% endif %}</p>
+                            <small class="text-muted">
+                                <i class="fas fa-tag"></i> {{ record.language }} • 
+                                <i class="fas fa-calendar"></i> {{ record.timestamp.split('T')[0] if record.timestamp else 'N/A' }}
+                            </small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-{% if record.reviewed %}success{% else %}warning{% endif %} mb-1">
+                                {% if record.reviewed %}Reviewed{% else %}Pending{% endif %}
+                            </span><br>
+                            <small class="text-muted">
+                                {% if record.media_type == 'text' %}<i class="fas fa-font"></i>
+                                {% elif record.media_type == 'audio' %}<i class="fas fa-microphone"></i>
+                                {% elif record.media_type == 'video' %}<i class="fas fa-video"></i>
+                                {% elif record.media_type == 'image' %}<i class="fas fa-camera"></i>
+                                {% elif record.media_type == 'document' %}<i class="fas fa-file-alt"></i>
+                                {% endif %}
+                                {{ record.media_type|title }}
+                            </small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                    <p>No recent activity. Start contributing to see your activity here!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

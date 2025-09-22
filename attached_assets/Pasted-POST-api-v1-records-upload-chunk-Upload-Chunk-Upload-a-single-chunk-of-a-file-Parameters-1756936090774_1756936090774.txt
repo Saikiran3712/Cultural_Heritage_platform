@@ -1,0 +1,159 @@
+POST
+/api/v1/records/upload/chunk
+Upload Chunk
+
+
+Upload a single chunk of a file.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+multipart/form-data
+chunk *
+string($binary)
+filename *
+string
+chunk_index *
+integer
+total_chunks *
+integer
+upload_uuid *
+string
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "additionalProp1": {}
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+POST
+/api/v1/records/upload
+Upload Record
+
+
+Finalize chunked upload and create a record.
+
+Parameters
+Try it out
+No parameters
+
+Request body
+
+application/x-www-form-urlencoded
+title *
+string
+description
+string | (string | null)
+category_id *
+string
+user_id *
+string
+media_type *
+string
+upload_uuid *
+string
+filename *
+string
+total_chunks *
+integer
+latitude
+number | (number | null)
+longitude
+number | (number | null)
+release_rights *
+string
+language *
+string
+use_uid_filename
+boolean
+Use record UID as filename instead of original filename
+
+Responses
+Code	Description	Links
+201	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "title": "string",
+  "description": "string",
+  "media_type": "text",
+  "file_url": "string",
+  "file_name": "string",
+  "file_size": 0,
+  "status": "pending",
+  "location": {
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  "reviewed": false,
+  "reviewed_by": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "reviewed_at": "2025-09-03T21:47:58.402Z",
+  "release_rights": "creator",
+  "language": "assamese",
+  "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2025-09-03T21:47:58.402Z",
+  "updated_at": "2025-09-03T21:47:58.402Z",
+  "duration_seconds": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}

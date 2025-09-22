@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translate('login') }} - {{ translate('cultural_heritage_platform') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3><i class="fas fa-sign-in-alt"></i> {{ translate('login') }}</h3>
+            </div>
+            <div class="card-body">
+                <!-- Login Method Tabs -->
+                <ul class="nav nav-tabs" id="loginTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="password-tab" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab">
+                            <i class="fas fa-key"></i> {{ translate('password') }} {{ translate('login') }}
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="otp-tab" data-bs-toggle="tab" data-bs-target="#otp" type="button" role="tab">
+                            <i class="fas fa-mobile-alt"></i> OTP {{ translate('login') }}
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="loginTabContent">
+                    <!-- Password Login -->
+                    <div class="tab-pane fade show active" id="password" role="tabpanel">
+                        <form method="POST" class="mt-3">
+                            {{ form.hidden_tag() }}
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">{{ translate('phone_number') }}</label>
+                                {{ form.phone(class="form-control") }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">{{ translate('password') }}</label>
+                                {{ form.password(class="form-control") }}
+                            </div>
+                            <div class="d-grid">
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- OTP Login -->
+                    <div class="tab-pane fade" id="otp" role="tabpanel">
+                        <div class="mt-3">
+                            <div id="otp-step-1">
+                                <div class="mb-3">
+                                    <label for="otpPhone" class="form-label">{{ translate('phone_number') }}</label>
+                                    <input type="text" class="form-control" id="otpPhone" placeholder="Enter your phone number">
+                                </div>
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-success" onclick="sendOTP()">
+                                        <i class="fas fa-paper-plane"></i> Send OTP
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="otp-step-2" style="display: none;">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i> OTP has been sent to your phone number.
+                                </div>
+                                <div class="mb-3">
+                                    <label for="otpCode" class="form-label">Enter OTP</label>
+                                    <input type="text" class="form-control" id="otpCode" placeholder="Enter 6-digit OTP" maxlength="6">
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-primary" onclick="verifyOTP()">
+                                        <i class="fas fa-check"></i> Verify OTP
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="resendOTP()">
+                                        <i class="fas fa-redo"></i> Resend OTP
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="text-center">
+                    <p>
+                        {% if get_current_language() == 'te' %}
+                            ఖాతా లేదా? <a href="{{ url_for('register') }}">ఇక్కడ నమోదు చేసుకోండి</a>
+                        {% else %}
+                            Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentPhone = '';
+
+function sendOTP() {
+    const phone = document.getElementById('otpPhone').value;
+    if (!phone) {
+        alert('Please enter your phone number');
+        return;
+    }
+
+    currentPhone = phone;
+    
+    fetch('/send-otp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({phone_number: phone})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('otp-step-1').style.display = 'none';
+            document.getElementById('otp-step-2').style.display = 'block';
+        } else {
+            alert('Failed to send OTP: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('Error sending OTP: ' + error);
+    });
+}
+
+function verifyOTP() {
+    const otpCode = document.getElementById('otpCode').value;
+    if (!otpCode || otpCode.length !== 6) {
+        alert('Please enter a valid 6-digit OTP');
+        return;
+    }
+
+    fetch('/verify-otp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            phone_number: currentPhone,
+            otp_code: otpCode
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = data.redirect;
+        } else {
+            alert('Invalid OTP: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('Error verifying OTP: ' + error);
+    });
+}
+
+function resendOTP() {
+    sendOTP();
+}
+</script>
+{% endblock %}

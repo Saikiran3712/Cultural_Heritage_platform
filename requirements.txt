@@ -1,0 +1,15 @@
+streamlit>=1.49.0
+streamlit-option-menu>=0.4.0
+requests>=2.32.5
+pillow>=11.3.0
+pandas>=2.3.2
+plotly>=6.3.0
+flask>=3.1.2
+flask-login>=0.6.3
+flask-session>=0.8.0
+flask-wtf>=1.2.2
+wtforms>=3.2.1
+openai>=1.102.0
+python-dotenv>=1.1.1
+email-validator>=2.3.0
+pyaudio>=0.2.14

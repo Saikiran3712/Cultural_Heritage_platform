@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center py-5 mb-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px;">
+    <h1 class="display-4 mb-3">
+        <i class="fas fa-temple"></i> 
+        {% if get_current_language() == 'te' %}
+            భారతీయ సాంస్కృతిక వారసత్వ సేకరణ
+        {% else %}
+            Indian Cultural Heritage Collection Platform
+        {% endif %}
+    </h1>
+    <p class="lead">
+        {% if get_current_language() == 'te' %}
+            భారతదేశ సమృద్ధ భాషా మరియు సాంస్కృతిక వైవిధ్యాన్ని పరిరక్షించండి మరియు పంచుకోండి
+        {% else %}
+            Preserve and share India's rich linguistic and cultural diversity
+        {% endif %}
+    </p>
+    {% if not current_user.is_authenticated %}
+    <div class="mt-4">
+        <a href="{{ url_for('login') }}" class="btn btn-light btn-lg me-3">
+            <i class="fas fa-sign-in-alt"></i> {{ translate('login') }}
+        </a>
+        <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-user-plus"></i> {{ translate('register') }}
+        </a>
+    </div>
+    {% else %}
+    <div class="mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-tachometer-alt"></i> {{ translate('dashboard') }}
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-book-open fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Stories & Proverbs</h5>
+                <p class="card-text">Share traditional stories, folk tales, and proverbs in your native language.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('stories') }}" class="btn btn-primary">Contribute Stories</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-utensils fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Traditional Recipes</h5>
+                <p class="card-text">Preserve family recipes and traditional cooking methods for future generations.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('recipes') }}" class="btn btn-success">Share Recipes</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-landmark fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Cultural Landmarks</h5>
+                <p class="card-text">Document historical places, temples, and cultural landmarks from your region.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('landmarks') }}" class="btn btn-warning">Add Landmarks</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h3><i class="fas fa-language"></i> Multilingual Support</h3>
+        <p>Our platform supports content in multiple Indian languages including Hindi, Tamil, Telugu, Bengali, Marathi, Gujarati, Kannada, Malayalam, Punjabi, Odia, and Urdu.</p>
+    </div>
+    
+    <div class="col-md-6">
+        <h3><i class="fas fa-users"></i> Community Driven</h3>
+        <p>Join thousands of contributors preserving India's cultural heritage through collaborative storytelling and knowledge sharing.</p>
+    </div>
+</div>
+{% endblock %}

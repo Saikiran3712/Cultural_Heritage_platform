@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Stories & Proverbs - Indian Cultural Heritage Platform{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1><i class="fas fa-book-open text-primary"></i> Stories & Proverbs</h1>
+        <p class="lead">Share traditional stories, folk tales, and proverbs in your native language.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-plus"></i> Add New Story or Proverb</h5>
+            </div>
+            <div class="card-body">
+                <form id="storyForm" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="language" class="form-label">Language</label>
+                            <select class="form-select" id="language" required>
+                                <option value="">Select Language</option>
+                                <option value="hindi">Hindi</option>
+                                <option value="tamil">Tamil</option>
+                                <option value="telugu">Telugu</option>
+                                <option value="bengali">Bengali</option>
+                                <option value="marathi">Marathi</option>
+                                <option value="gujarati">Gujarati</option>
+                                <option value="kannada">Kannada</option>
+                                <option value="malayalam">Malayalam</option>
+                                <option value="punjabi">Punjabi</option>
+                                <option value="odia">Odia</option>
+                                <option value="urdu">Urdu</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="type" class="form-label">Content Type</label>
+                            <select class="form-select" id="type" required>
+                                <option value="">Select Type</option>
+                                <option value="story">Story</option>
+                                <option value="proverb">Proverb</option>
+                                <option value="folktale">Folk Tale</option>
+                                <option value="legend">Legend</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" id="content" rows="8" required placeholder="Share your story or proverb here..."></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="region" class="form-label">Region/State</label>
+                            <input type="text" class="form-control" id="region" placeholder="e.g., Rajasthan, Tamil Nadu">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tags" class="form-label">Tags</label>
+                            <input type="text" class="form-control" id="tags" placeholder="e.g., traditional, moral, historical">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="audio" class="form-label">Audio Recording (Optional)</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="audio" accept="audio/*">
+                            <button class="btn btn-outline-secondary" type="button" id="recordBtn">
+                                <i class="fas fa-microphone"></i> Record
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Submit Story
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h6><i class="fas fa-lightbulb"></i> Tips for Sharing</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Write in your native language</li>
+                    <li><i class="fas fa-check text-success"></i> Include context and meaning</li>
+                    <li><i class="fas fa-check text-success"></i> Mention the region of origin</li>
+                    <li><i class="fas fa-check text-success"></i> Add audio for pronunciation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6><i class="fas fa-chart-bar"></i> Your Contributions</h6>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="text-primary">0</h3>
+                <p class="text-muted">Stories shared</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

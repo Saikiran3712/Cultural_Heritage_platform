@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Cultural Landmarks - Indian Cultural Heritage Platform{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1><i class="fas fa-landmark text-warning"></i> Cultural Landmarks</h1>
+        <p class="lead">Document historical places, temples, and cultural landmarks from your region.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-plus"></i> Add New Landmark</h5>
+            </div>
+            <div class="card-body">
+                <form id="landmarkForm" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="landmarkName" class="form-label">Landmark Name</label>
+                            <input type="text" class="form-control" id="landmarkName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="landmarkType" class="form-label">Type</label>
+                            <select class="form-select" id="landmarkType" required>
+                                <option value="">Select Type</option>
+                                <option value="temple">Temple</option>
+                                <option value="monument">Monument</option>
+                                <option value="fort">Fort</option>
+                                <option value="palace">Palace</option>
+                                <option value="mosque">Mosque</option>
+                                <option value="church">Church</option>
+                                <option value="heritage_site">Heritage Site</option>
+                                <option value="cultural_center">Cultural Center</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" class="form-control" id="state" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="period" class="form-label">Historical Period</label>
+                            <input type="text" class="form-control" id="period" placeholder="e.g., 12th Century, Mughal Era">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="architecture" class="form-label">Architectural Style</label>
+                            <input type="text" class="form-control" id="architecture" placeholder="e.g., Dravidian, Mughal, British">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="5" required placeholder="Describe the landmark, its history, and significance..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="significance" class="form-label">Cultural Significance</label>
+                        <textarea class="form-control" id="significance" rows="3" placeholder="What makes this landmark culturally important?"></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="visitingHours" class="form-label">Visiting Hours (Optional)</label>
+                            <input type="text" class="form-control" id="visitingHours" placeholder="e.g., 6:00 AM - 6:00 PM">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="entryFee" class="form-label">Entry Fee (Optional)</label>
+                            <input type="text" class="form-control" id="entryFee" placeholder="e.g., ₹10, Free">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="directions" class="form-label">How to Reach (Optional)</label>
+                        <textarea class="form-control" id="directions" rows="2" placeholder="Transportation details and directions..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="photos" class="form-label">Photos (Optional)</label>
+                        <input type="file" class="form-control" id="photos" accept="image/*" multiple>
+                        <div class="form-text">You can select multiple photos</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Submit Landmark
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h6><i class="fas fa-camera"></i> Documentation Tips</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Include historical context</li>
+                    <li><i class="fas fa-check text-success"></i> Add clear photographs</li>
+                    <li><i class="fas fa-check text-success"></i> Mention architectural details</li>
+                    <li><i class="fas fa-check text-success"></i> Share local legends/stories</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6><i class="fas fa-map-marker-alt"></i> Your Landmarks</h6>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="text-warning">0</h3>
+                <p class="text-muted">Landmarks documented</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

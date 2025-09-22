@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}{{ translate('profile') }} - {{ translate('cultural_heritage_platform') }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-user-circle"></i> {{ translate('profile') }}</h3>
+            </div>
+            <div class="card-body">
+                <form id="profileForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">{{ translate('full_name') }}</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ user_info.name if user_info else current_user.name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">{{ translate('email') }}</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ user_info.email if user_info else current_user.email }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">{{ translate('phone_number') }}</label>
+                            <input type="text" class="form-control" id="phone" value="{{ user_info.phone if user_info else current_user.phone }}" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="place" class="form-label">{{ translate('location') }}</label>
+                            <input type="text" class="form-control" id="place" name="place" value="{{ user_info.place if user_info else '' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            {% if get_current_language() == 'te' %}
+                                ప్రొఫైల్ అప్‌డేట్ చేయండి
+                            {% else %}
+                                Update Profile
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+                
+                <hr>
+                
+                <h5>
+                    {% if get_current_language() == 'te' %}
+                        పాస్‌వర్డ్ మార్చండి
+                    {% else %}
+                        Change Password
+                    {% endif %}
+                </h5>
+                <form id="passwordForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="currentPassword" class="form-label">
+                                {% if get_current_language() == 'te' %}
+                                    ప్రస్తుత పాస్‌వర్డ్
+                                {% else %}
+                                    Current Password
+                                {% endif %}
+                            </label>
+                            <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="newPassword" class="form-label">
+                                {% if get_current_language() == 'te' %}
+                                    కొత్త పాస్‌వర్డ్
+                                {% else %}
+                                    New Password
+                                {% endif %}
+                            </label>
+                            <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning">
+                            {% if get_current_language() == 'te' %}
+                                పాస్‌వర్డ్ మార్చండి
+                            {% else %}
+                                Change Password
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="successToast" class="toast" role="alert">
+        <div class="toast-header">
+            <strong class="me-auto text-success">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="successMessage">
+            Profile updated successfully!
+        </div>
+    </div>
+    <div id="errorToast" class="toast" role="alert">
+        <div class="toast-header">
+            <strong class="me-auto text-danger">Error</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="errorMessage">
+            Failed to update profile
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('profileForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    try {
+        const response = await fetch('/update-profile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            document.getElementById('successMessage').textContent = result.message;
+            new bootstrap.Toast(document.getElementById('successToast')).show();
+        } else {
+            document.getElementById('errorMessage').textContent = result.message;
+            new bootstrap.Toast(document.getElementById('errorToast')).show();
+        }
+    } catch (error) {
+        document.getElementById('errorMessage').textContent = 'Network error occurred';
+        new bootstrap.Toast(document.getElementById('errorToast')).show();
+    }
+});
+
+document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    try {
+        const response = await fetch('/change-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            document.getElementById('successMessage').textContent = result.message;
+            new bootstrap.Toast(document.getElementById('successToast')).show();
+            this.reset();
+        } else {
+            document.getElementById('errorMessage').textContent = result.message;
+            new bootstrap.Toast(document.getElementById('errorToast')).show();
+        }
+    } catch (error) {
+        document.getElementById('errorMessage').textContent = 'Network error occurred';
+        new bootstrap.Toast(document.getElementById('errorToast')).show();
+    }
+});
+</script>
+{% endblock %}

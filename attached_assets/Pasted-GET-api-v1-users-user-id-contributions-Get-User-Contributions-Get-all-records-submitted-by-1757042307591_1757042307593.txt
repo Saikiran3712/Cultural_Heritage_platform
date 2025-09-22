@@ -1,0 +1,299 @@
+GET
+/api/v1/users/{user_id}/contributions
+Get User Contributions
+
+
+Get all records submitted by a user. Allow self-access or with permission.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "total_contributions": 0,
+  "contributions_by_media_type": {
+    "text": 0,
+    "audio": 0,
+    "image": 0,
+    "video": 0,
+    "document": 0
+  },
+  "audio_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T03:18:10.701Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "video_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T03:18:10.701Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "text_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T03:18:10.701Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "image_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T03:18:10.701Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "document_contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T03:18:10.701Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ],
+  "audio_duration": 0,
+  "video_duration": 0
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+GET
+/api/v1/users/{user_id}/contributions/{media_type}
+Get User Contributions By Media
+
+
+Get records by media type. Allow self-access or with permission.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+media_type *
+string
+(path)
+Available values : text, audio, video, image, document
+
+
+text
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "total_contributions": 0,
+  "contributions": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "size": 0,
+      "category_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "reviewed": true,
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "timestamp": "2025-09-05T03:18:10.708Z",
+      "location": {
+        "latitude": 17.385,
+        "longitude": 78.4867
+      },
+      "release_rights": "creator",
+      "language": "assamese",
+      "file_hash": "string",
+      "snr_frequency": 0
+    }
+  ]
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+No links
+
+PUT
+/api/v1/users/{user_id}/change-password
+Change User Password
+
+
+Change a user's password.
+
+Parameters
+Try it out
+Name	Description
+user_id *
+string($uuid)
+(path)
+user_id
+Request body
+
+application/json
+Example Value
+Schema
+{
+  "current_password": "string",
+  "new_password": "stringst",
+  "confirm_password": "stringst"
+}
+Responses
+Code	Description	Links
+200	
+Successful Response
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "message": "string"
+}
+No links
+422	
+Validation Error
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}

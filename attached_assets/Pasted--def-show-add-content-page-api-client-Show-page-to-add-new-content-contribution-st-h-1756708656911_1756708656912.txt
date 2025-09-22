@@ -1,0 +1,208 @@
+
+def show_add_content_page(api_client):
+    """Show page to add new content contribution"""
+    st.header("➕ Add New Content")
+    st.markdown("Help preserve our cultural heritage by documenting traditional content!")
+    
+    with st.form("add_content_form", clear_on_submit=True):
+        # Content Information
+        st.subheader("📝 Content Information")
+        title = st.text_input("Title *", placeholder="Enter a title for your content")
+        description = st.text_area("Short Description *", 
+                                   placeholder="Provide a brief description (minimum 32 characters)", 
+                                   height=100)
+        content_text = st.text_area("Detailed Content *", # Changed label to reflect importance
+                                   placeholder="Enter your detailed text content here...", 
+                                   height=150)
+        
+        # Category
+        categories_data = api_client.get_categories()
+        category_names = [cat.get('name') for cat in categories_data if cat.get('name')] if categories_data else []
+        selected_category_name = st.selectbox("Category *", category_names)
+        
+        selected_category_id = None
+        if categories_data and selected_category_name:
+            for cat in categories_data:
+                if cat.get('name') == selected_category_name:
+                    selected_category_id = cat.get('id')
+                    break
+        
+        if not selected_category_id:
+            st.error("Selected category ID not found. Please try again or select a different category.")
+            st.stop() # Stop execution if category ID is missing
+
+        # Location
+        st.subheader("📍 Location (Optional)")
+        col_lat, col_lon = st.columns(2)
+        with col_lat:
+            latitude_str = st.text_input("Latitude", placeholder="e.g., 17.3850 (Optional)")
+            if latitude_str:
+                try:
+                    latitude = float(latitude_str)
+                except ValueError:
+                    st.error("Invalid Latitude. Please enter a number.")
+            else:
+                latitude = None
+        with col_lon:
+            longitude_str = st.text_input("Longitude", placeholder="e.g., 78.4867 (Optional)")
+            if longitude_str:
+                try:
+                    longitude = float(longitude_str)
+                except ValueError:
+                    st.error("Invalid Longitude. Please enter a number.")
+            else:
+                longitude = None
+        
+        # Language and Release Rights
+        st.subheader("🌐 Language & Rights")
+        language_options = ["-- Select a language --", "Telugu", "English", "Hindi", "Other"]
+        language = st.selectbox("Select Language *", language_options)
+        
+        release_rights_options = {
+            "This work is created by me and anyone is free to use it.": "creator",
+            "This work is created by my family/friends and I took permission to upload their work.": "family_or_friend",
+            "I downloaded this from the internet and/or I don't know if it is free to share.": "downloaded"
+        }
+        selected_release_rights_display = st.radio("Release Rights *", list(release_rights_options.keys()))
+        
+        # File uploads
+        st.subheader("📁 Media Files (Optional)")
+        st.markdown("Upload photos, videos, or audio files related to this content.")
+        
+        uploaded_files = st.file_uploader(
+            "Choose files",
+            accept_multiple_files=True,
+            type=['png', 'jpg', 'jpeg', 'mp4', 'mov', 'mp3', 'wav', 'pdf']
+        )
+        
+        # Submit button
+        submitted = st.form_submit_button("🚀 Upload Content", use_container_width=True)
+        
+        if submitted:
+            # Map UI selections to backend enum values
+            mapped_release_rights = release_rights_options.get(selected_release_rights_display, "NA")
+            
+            # Backend expects specific language codes. Map common ones, default to 'NA' or a specific code.
+            # Based on the error, the backend expects specific Indian languages.
+            language_mapping = {
+                "Telugu": "telugu",
+                "English": "NA", # Map English to NA as it's not in the backend enum list
+                "Hindi": "hindi",
+                "Other": "NA" # Default for other languages not explicitly listed
+            }
+            mapped_language = language_mapping.get(language, "NA")
+
+            # Validation
+            if not all([title, description, content_text, selected_category_id, selected_release_rights_display]): # All text fields are now required
+                st.error("Please fill in all required fields marked with *")
+            elif language == "-- Select a language --":
+                st.error("Please select a valid language.")
+            elif len(description) < 32:
+                st.error("Short Description must be at least 32 characters long.")
+            elif len(content_text) < 32: # Added validation for content_text length
+                st.error("Detailed Content must be at least 32 characters long.")
+            else:
+                user_id = st.session_state.user_data.get('id')
+                if not user_id:
+                    st.error("User ID not found. Please ensure you are logged in.")
+                    st.stop() # Stop execution if user ID is missing
+
+                # Combine title, description, and content_text into a single description for the backend
+                combined_description = f"Title: {title}\nShort Description: {description}\nDetailed Content: {content_text}"
+                
+                if len(combined_description) < 32: # Validate combined description length
+                    st.error("The combined description (Title, Short Description, and Detailed Content) must be at least 32 characters long.")
+                else:
+                    with st.spinner("Uploading your content contribution..."):
+                        uploaded_files_info = [] # To store info for each file after chunk upload
+                        uploaded_files_count = 0
+                        
+                        if uploaded_files:
+                            for uploaded_file in uploaded_files:
+                                file_bytes = uploaded_file.read()
+                                file_size = len(file_bytes)
+                                chunk_size = 1024 * 1024 # 1MB chunks
+                                total_chunks = (file_size + chunk_size - 1) // chunk_size
+                                
+                                file_upload_uuid = str(uuid.uuid4()) # Unique ID for THIS file's upload
+                                
+                                current_file_upload_successful = True
+                                last_chunk_result = None
+                                
+                                for i in range(total_chunks):
+                                    chunk = file_bytes[i * chunk_size:(i + 1) * chunk_size]
+                                    chunk_result = api_client.upload_file_chunk(
+                                        chunk_data=chunk,
+                                        filename=uploaded_file.name,
+                                        chunk_index=i,
+                                        total_chunks=total_chunks,
+                                        upload_uuid=file_upload_uuid # Use file-specific UUID
+                                    )
+                                    if not chunk_result:
+                                        st.warning(f"Failed to upload chunk {i+1} for {uploaded_file.name}. Aborting upload.")
+                                        current_file_upload_successful = False
+                                        break
+                                    last_chunk_result = chunk_result
+                                
+                                if current_file_upload_successful:
+                                    # The backend is expected to associate the file with the UID.
+                                    # We no longer expect a file_url from chunk upload, so no need to check for it here.
+                                    uploaded_files_info.append({
+                                        "name": uploaded_file.name,
+                                        "type": uploaded_file.type,
+                                        "size": file_size,
+                                        "uuid": file_upload_uuid,
+                                        "total_chunks": total_chunks # Store total_chunks for this specific file
+                                    })
+                                    uploaded_files_count += 1
+                                else:
+                                    st.error(f"File upload failed for {uploaded_file.name}.")
+
+                        # Now, finalize records for successfully uploaded files
+                        if uploaded_files_info:
+                            for file_info in uploaded_files_info:
+                                # Determine media_type
+                                media_type_full = file_info['type'] if file_info['type'] else "application/octet-stream"
+                                if "audio" in media_type_full:
+                                    media_type = "audio"
+                                elif "video" in media_type_full:
+                                    media_type = "video"
+                                elif "image" in media_type_full or "pdf" in media_type_full: # PDF is treated as image by backend
+                                    media_type = "image"
+                                else:
+                                    media_type = "text" # Default to "text" if not audio, video, or image/pdf
+
+                                finalize_result = api_client.finalize_record_upload(
+                                    title=title, # Title remains separate
+                                    description=combined_description, # Combined description
+                                    media_type=media_type,
+                                    filename=file_info['name'],
+                                    total_chunks=file_info['total_chunks'], # Use the stored total_chunks for this file
+                                    release_rights=mapped_release_rights, # Use mapped value
+                                    language=mapped_language, # Use mapped value
+                                    upload_uuid=file_info['uuid'],
+                                    user_id=user_id, # Use the validated user_id
+                                    category_id=selected_category_id,
+                                    latitude=latitude,
+                                    longitude=longitude,
+                                    use_uid_filename=False
+                                )
+                                if not finalize_result:
+                                    st.warning(f"Failed to finalize record for {file_info['name']}.")
+                                    uploaded_files_count -= 1
+                            
+                            if uploaded_files_count > 0:
+                                st.success(f"🎉 {uploaded_files_count} files uploaded and content finalized successfully! Thank you for contributing to our cultural heritage!")
+                                st.balloons()
+                                
+                                # Show success summary
+                                st.markdown("### 📋 Contribution Summary")
+                                st.markdown(f"**Title:** {title}")
+                                st.markdown(f"**Category:** {selected_category_name}")
+                                st.markdown(f"**Language:** {language}")
+                                st.markdown(f"**Files Uploaded:** {uploaded_files_count} files")
+                                st.info("Your contribution is now part of our community collection and visible to all users!")
+                            else:
+                                st.error("Failed to upload content. Please try again.")
+                        else:
+                            st.error("No files were selected for upload or all uploads failed. Please try again.")
